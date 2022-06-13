@@ -10,7 +10,7 @@ import db from './mikro-orm.config';
     await orm.getSchemaGenerator().refreshDatabase();
 
     console.time('testrun.create');
-    orm.em.create(TestRunEntity, {
+    const entity = orm.em.create(TestRunEntity, {
         cases: Array(10_000).fill(undefined).map((_, index) => ({
             title: `Test Case #${index}`
         }))
@@ -22,6 +22,15 @@ import db from './mikro-orm.config';
 
     // With changes
     // testrun.create: 99.503ms
+
+    const itemsByIndex = entity.cases;
+    const itemsFromSet = entity.cases.getItems();
+    const itemsByIndexMax = itemsByIndex.length - 1;
+    const itemsFromSetMax = itemsFromSet.length - 1;
+
+    console.log('0: ', itemsByIndex[0] === itemsFromSet[0]);
+    console.log('1: ', itemsByIndex[1] === itemsFromSet[1]);
+    console.log(`${itemsByIndexMax}|${itemsFromSetMax}:`, itemsByIndex[itemsByIndexMax] === itemsFromSet[itemsFromSetMax]);
 
     await orm.close();
 })();
