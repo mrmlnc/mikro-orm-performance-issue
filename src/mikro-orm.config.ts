@@ -1,13 +1,13 @@
-import { LoadStrategy, Options } from "@mikro-orm/core";
+import type { Options } from "@mikro-orm/core";
+import { TestCaseEntity } from "./entities/TestCaseEntity";
+import { TestRunEntity } from "./entities/TestRunEntity";
 
 const options: Options = {
-    entities: ['./build/entities/*.js'],
-    type: 'sqlite',
+    entities: [TestRunEntity, TestCaseEntity],
+    type: 'better-sqlite',
     dbName: ':memory:',
 
     allowGlobalContext: true,
-    implicitTransactions: true,
-    loadStrategy: LoadStrategy.JOINED,
 };
 
 export default options;
