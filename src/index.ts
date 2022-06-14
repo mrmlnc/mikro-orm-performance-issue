@@ -17,20 +17,37 @@ import db from './mikro-orm.config';
     });
     console.timeEnd('testrun.create');
 
+    console.time('testrun.cases.remove');
+    entity.cases.remove(entity.cases[13]);
+    console.timeEnd('testrun.cases.remove');
+
+    // console.dir({
+    //     index: 13,
+    //     accessByIndex: {
+    //         before: entity.cases[12], // Test Case #12
+    //         current: entity.cases[13], // Test Case #14
+    //         after: entity.cases[14], // Test Case #15
+    //     },
+    //     accessBySet: {
+    //         before: entity.cases.getItems()[12], // Test Case #12
+    //         current: entity.cases.getItems()[13], // Test Case #14
+    //         after: entity.cases.getItems()[14], // Test Case #15
+    //     },
+    // }, { colors: true });
+
+    console.time('testrun.cases.removeAll');
+    entity.cases.removeAll();
+    console.timeEnd('testrun.cases.removeAll');
+
     // Without changes
-    // testrun.create: 12.023s
+    // testrun.create: 92.887ms
+    // testrun.cases.remove: 2.871ms
+    // testrun.cases.removeAll: 11.941s
 
     // With changes
-    // testrun.create: 99.503ms
-
-    const itemsByIndex = entity.cases;
-    const itemsFromSet = entity.cases.getItems();
-    const itemsByIndexMax = itemsByIndex.length - 1;
-    const itemsFromSetMax = itemsFromSet.length - 1;
-
-    console.log('0: ', itemsByIndex[0] === itemsFromSet[0]);
-    console.log('1: ', itemsByIndex[1] === itemsFromSet[1]);
-    console.log(`${itemsByIndexMax}|${itemsFromSetMax}:`, itemsByIndex[itemsByIndexMax] === itemsFromSet[itemsFromSetMax]);
+    // testrun.create: 94.648ms
+    // testrun.cases.remove: 2.65ms
+    // testrun.cases.removeAll: 10.396ms
 
     await orm.close();
 })();
